@@ -12,13 +12,14 @@
 
    This code outputs randomly generated real-valued data in the following format (UCI bag-of-words).
    
-   no. of documents
+   ```no. of documents
    
    max. no. of words in each document (dimensionality)
    
    total number of words in vocabulary
    
    doc_id  word_id  frequency
+   ```
    
    To run : `python generatedata.py > dataset/data.txt`
    
