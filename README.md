@@ -31,21 +31,21 @@
    
    To run : `python readdata.py dataset` 
    
-   Make sure you run `readdata.py` before running any of the SPKM algorithms
+   Make sure you run `readdata.py` before running any of the SPKM algorithms.
    
- 3. __spherical_KMeans.py__
+3. __spherical_KMeans.py__
  
    This code clusters documents using Spherical KMeans (SPKM) algorithm. It is similar to KMeans (Lloyd's algorithm) except in the fact that instead of minimizing the Euclidean distance between points on a Geometric scale, it maximises their cosine similarity when they are represented on a unit sphere. 
    
    To run : `python spherical_KMeans.py`
    
- 4. __spkm++.py__
+4. __spkm++.py__
  
    This code clusters documents using Spherical KMeans ++ (SPKM++) algorithm. In this algorithm, instead of initializing the k centers by sampling random points (as done in SPKM), the centers are carefully chosen from a probability distribution one at a time. So the algorithm takes k passes over the data points.
    
    To run : `python spkm++.py` 
    
- 5. __mcmc.py__
+5. __mcmc.py__
  
    This code clusters documents using Spherical KMeans MCMC (SPKM-MC2) algorithm. In this algorithm, all k initial centers are chosen after a single pass over the data points from a Markov Chain sampling(whose length is set by the user). This gives the faster clustering results compared to SPKM++ and better clustering quality compared to SPKM. 
    
