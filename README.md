@@ -1,4 +1,4 @@
-# Fast and Provable Concept Decompositions in Large Text Corpus
+# Clustering Algorithms for Spherical k-means
 
 ## Prerequisites ##
 
@@ -35,19 +35,18 @@
    
 3. __spherical_KMeans.py__
  
-   This code clusters documents using Spherical KMeans (SPKM) algorithm. It is similar to KMeans (Lloyd's algorithm) except in the fact that instead of minimizing the Euclidean distance between points on a Geometric scale, it maximises their cosine similarity when they are represented on a unit sphere. 
+   This code clusters documents using Spherical k-means (SPKM) algorithm. It is an iterative algorithm similar to k-means (Lloyd's algorithm) except in the fact that instead of minimizing the sum of the squared distance of all the points to their nearest cluster center,  it maximizes the sum of Cosine Similarity of all the points to their nearest cluster center. Given the number of clusters, k, the first k points (cluster center candidates) are sampled uniformly at random. 
    
    To run : `python spherical_KMeans.py`
    
 4. __spkm++.py__
  
-   This code clusters documents using Spherical KMeans ++ (SPKM++) algorithm. In this algorithm, instead of initializing the k centers by sampling random points (as done in SPKM), the centers are carefully chosen from a probability distribution one at a time. So the algorithm takes k passes over the data points.
+   This code clusters documents using Spherical k-means++ (SPKM++) algorithm. In this algorithm, instead of initializing the k centers via uniform random sampling  (as done in SPKM), the centers are carefully chosen following an adaptive sampling strategy. The algorithm takes k passes over the dataset and samples one point in each pass. The guarantee of this sampling algorithm is that the cost of clustering obtained by considering them as cluster centers is within O(log k) factor with respect to the optimal clustering. 
    
    To run : `python spkm++.py` 
    
 5. __mcmc.py__
  
-   This code clusters documents using Spherical KMeans MCMC (SPKM-MC2) algorithm. In this algorithm, all k initial centers are chosen after a single pass over the data points from a Markov Chain sampling(whose length is set by the user). This gives the faster clustering results compared to SPKM++ and better clustering quality compared to SPKM. 
+   This code clusters documents using Spherical KMeans MCMC (SPKM-MC2) algorithm. This algorithm also proposes a sampling strategy and samples k initial centers. A major difference between this and SPKM++ is that it requires only one pass of the dataset to sample k points. Thus it is asymptotically/empirically faster then SPKM++ albeit offers a similar clustering guarantee.
    
    To run : `python mcmc.py` 
-   
