@@ -52,7 +52,7 @@
    To run : `python mcmc.py` 
 
 If you plan to use this implementation for any work of yours, please consider citing our paper,
-
+```
 @inproceedings{SPKM_MCMC,
  author    = {Rameshwar Pratap and
                    Pratheeksha Nair and
@@ -62,3 +62,4 @@ If you plan to use this implementation for any work of yours, please consider ci
   booktitle = {Asian Conference on Machine Learning (ACML), Accepted},
   year      = {2018},
 }
+```
