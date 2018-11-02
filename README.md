@@ -50,3 +50,15 @@
    This code clusters documents using Spherical KMeans MCMC (SPKM-MC2) algorithm. This algorithm also proposes a sampling strategy and samples k initial centers. A major difference between this and SPKM++ is that it requires only one pass of the dataset to sample k points. Thus it is asymptotically/empirically faster then SPKM++ albeit offers a similar clustering guarantee.
    
    To run : `python mcmc.py` 
+
+If you plan to use this implementation for any work of yours, please consider citing our paper,
+
+@inproceedings{SPKM_MCMC,
+ author    = {Rameshwar Pratap and
+                   Pratheeksha Nair and
+                   Anup Deshmukh and
+		   Tarun Dutt},
+  title     = {A Faster Sampling Algorithm for Spherical $k$-means},
+  booktitle = {Asian Conference on Machine Learning (ACML), Accepted},
+  year      = {2018},
+}
