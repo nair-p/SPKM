@@ -23,6 +23,7 @@ import pickle
 import sys
 import time
 import timeit
+import matplotlib.pyplot as plt
 start_time = time.time()
 
 
@@ -31,7 +32,7 @@ def dist(x, c):
     d = 0.
     for i, v in enumerate(x):
         d += (v*c[i])
-    return d
+    return 1.5 - d
 
 
 def D(x, V):
@@ -121,8 +122,29 @@ def cost(xs, centers):
         cst += D(x,centers)
     return cst
 
+def plot_graph(cluster_ind, i, iter):
 
-def skmeanspp(k, xs, l, n_iter=50):
+    clusters = [set() for _ in range(i)]
+    for q, j in enumerate(cluster_ind):
+        clusters[j].add(q)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    #scatter = ax.scatter(x,y,c=Cluster,s=50)
+    cluster1 = data[list(clusters[0])]
+    cluster2 = data[list(clusters[1])]
+    for i,j in cluster1:
+        ax.scatter(i,j,s=50,c='red',marker='.')
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        #plt.colorbar(scatter)
+    for i,j in cluster2:
+        ax.scatter(i,j,s=50,c='green',marker='.')
+    ax.set_title("no of steps=" + str(iter))
+    fig.show()
+    plt.show()
+
+def skmeanspp(k, xs, l, n_iter=1000):
 
     centers = []
     current = 2
@@ -213,26 +235,33 @@ def skmeanspp(k, xs, l, n_iter=50):
     cluster = [None] * len(xs)
     t = 0
     start = time.time()
-    for i, x in enumerate(xs):
-        cluster[i] = max(xrange(k), key=lambda j: dist(xs[i], centers[j]))
-    for j, c in enumerate(centers):
-        members = (x for i, x in enumerate(xs) if cluster[i] == j)
-        centers[j] = mean(members, l)
-    seeding_cost = cost(xs, centers)
-    t += (time.time() - start)
+    count = 0
+    while(count < n_iter):
+        count += 1
+        for i, x in enumerate(xs):
+            cluster[i] = min(xrange(k), key=lambda j: dist(xs[i], centers[j]))
+        for j, c in enumerate(centers):
+            members = (x for i, x in enumerate(xs) if cluster[i] == j)
+            centers[j] = mean(members, l)
+
+        seeding_cost = cost(xs, centers)
+        t += (time.time() - start)
     
     print("Seeding cost: %s" % (seeding_cost))
     print("Seeding time: %s seconds \n" % (elapsed))
     print("Total Running time: %s seconds " % (t))
     return cluster
 
+with open('xs_plot.pickle','rb') as handle:
+    data = pickle.load(handle)
 
 if __name__ == '__main__':
     
-    k = [3, 5]
+    #k = [3, 5]
+    k = [2]
     m = int(sys.argv[1])
     s = 0.
-    with open('xs.pickle', 'rb') as handle:
+    with open('xs_norm.pickle', 'rb') as handle:
          xs = pickle.load(handle)
 
     start2 = time.time()
@@ -247,6 +276,7 @@ if __name__ == '__main__':
         for j, c in enumerate(clusters):
             print("cluster %d:" % j)
             print(len(c))
+        plot_graph(cluster_ind,i,1000)
     print("\n \n")
 
     time2 = time.time() - start2

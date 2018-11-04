@@ -13,6 +13,7 @@ import math
 import pickle
 import time
 import timeit
+import matplotlib.pyplot as plt
 start_time = time.time()
 
 
@@ -65,7 +66,29 @@ def cost(xs, centers):
         cst += D(x,centers)
     return cst
 
-def kmeans(k, xs, l, n_iter=3):
+def plot_graph(cluster_ind, i, iter):
+
+    clusters = [set() for _ in range(i)]
+    for q, j in enumerate(cluster_ind):
+        clusters[j].add(q)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    #scatter = ax.scatter(x,y,c=Cluster,s=50)
+    cluster1 = data[list(clusters[0])]
+    cluster2 = data[list(clusters[1])]
+    for i,j in cluster1:
+        ax.scatter(i,j,s=50,c='red',marker='.')
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        #plt.colorbar(scatter)
+    for i,j in cluster2:
+        ax.scatter(i,j,s=50,c='green',marker='.')
+    ax.set_title("No of steps = " + str(iter))
+    fig.show()
+    plt.show()
+
+def kmeans(k, xs, l, n_iter=1000):
     # Initialize from random points.
     start_time = timeit.default_timer()
     centers = [densify(xs[i], l) for i in random.sample(list(range(len(xs))), k)]
@@ -89,35 +112,39 @@ def kmeans(k, xs, l, n_iter=3):
 
          maxi = min(maxi,cost(xs, centers))
          t += (time.time() - start)
-    
   
     print("Seeding cost: %s " % (maxi))
     print("Seeding time: %s seconds " % (elapsed))
     print("Total Running time: %s seconds " % (t))
     
-    
+    print len(cluster)
     return cluster
 
+with open('xs_plot.pickle','rb') as handle:
+    data = pickle.load(handle)
 
 if __name__ == '__main__':
 
-    with open('xs.pickle', 'rb') as handle:
+    with open('xs_norm.pickle', 'rb') as handle:
          xs = pickle.load(handle)
-    k = [3, 5]
+    #k = [3, 5]
+    k = [2]
     start = time.time()
     for i in k:
         print("Number of clusters %d: \n" % i) 
-        for p in range(3):
+        for p in range(1):
             print("Iteration number %d: \n" % p) 
             cluster_ind = kmeans(i, xs, len(xs[0]))
             clusters = [set() for _ in range(i)]
+
             for q, j in enumerate(cluster_ind):
                  clusters[j].add(q)
 
         for j, c in enumerate(clusters):
             print("cluster %d:" % j)
 	    print(len(c))
-	print("\n \n")
+	plot_graph(cluster_ind, i, 1000)
+    print("\n \n")
 
     time2 = time.time() - start
     print("Running time: %s seconds \n" % time2)
